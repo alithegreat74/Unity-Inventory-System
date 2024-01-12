@@ -1,2 +1,4 @@
-# Unity-Inventory-System
-This is a system that you can use for your games to make an inventory
+
+# Unity Inventory System
+
+A system to implement Inventory to you game
