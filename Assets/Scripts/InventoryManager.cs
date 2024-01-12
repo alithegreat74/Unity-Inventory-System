@@ -24,6 +24,8 @@ public class InventoryManager : InventorySubject
     {
         if(Input.GetKeyDown(KeyCode.T))
             AddItem(_data);
+        if (Input.GetKeyDown(KeyCode.Y))
+            RemoveItem(_data);
     }
 
     //You can add new Items with this function
@@ -39,6 +41,7 @@ public class InventoryManager : InventorySubject
             inventoryItems.Add(newItem);
             inventoryItemsDictionary.Add(itemData, newItem);
         }
+        NotifyObservers();
     }
 
     public void RemoveItem(ItemData itemData)
@@ -52,6 +55,7 @@ public class InventoryManager : InventorySubject
                 inventoryItems.Remove(item);
                 inventoryItemsDictionary.Remove(itemData);
             }
+            NotifyObservers();
         }
         else
         {

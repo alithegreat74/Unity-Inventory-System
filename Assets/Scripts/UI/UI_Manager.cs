@@ -19,12 +19,19 @@ public class UI_Manager : MonoBehaviour
     [Header("UI Menus")]
     [SerializeField] private GameObject _inventoryMenu;
 
+    private void Start()
+    {
+        Switch(null);
+    }
     private void Switch(GameObject menu)
     {
+        
         for(int i=0;i<transform.childCount;i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
         }
+        if (menu==null)
+            return;
         menu.SetActive(true);
     }
     public void SwitchTo(GameObject menu)
@@ -43,6 +50,8 @@ public class UI_Manager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.I))
             ToggleInventory();
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Switch(null);
     }
 
 }
