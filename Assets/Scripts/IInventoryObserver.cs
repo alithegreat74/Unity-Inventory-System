@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IInventoryObserver 
 {
-    public void Notify();
+    public void Notify(InventoryNotification notif);
 }

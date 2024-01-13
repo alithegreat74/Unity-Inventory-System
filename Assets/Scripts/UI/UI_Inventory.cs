@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class UI_Inventory : MonoBehaviour,IInventoryObserver
 {
@@ -10,11 +11,13 @@ public class UI_Inventory : MonoBehaviour,IInventoryObserver
     [SerializeField] private GameObject _itemSlotPrefab;
     [SerializeField] private GameObject _slotsGrid;
     private UI_ItemSlot[] _slots;
+    private UI_EquipmentSlot[] _equipmentSlots;
     
     private void OnEnable()
     {
         InventoryManager.instance.AddObserver(this);
         _slots=GetComponentsInChildren<UI_ItemSlot>();
+        _equipmentSlots=GetComponentsInChildren<UI_EquipmentSlot>();
         LoadItems();
     }
     private void LoadItems()
@@ -49,8 +52,24 @@ public class UI_Inventory : MonoBehaviour,IInventoryObserver
         }
     }
 
-    public void Notify()
+    public void Notify(InventoryNotification notif)
     {
-        LoadItems();
+        if(notif==InventoryNotification.InventoryModified)
+            LoadItems();
+        else
+            LoadEquipments();
+        
+    }
+
+    private void LoadEquipments()
+    {
+        List<InventoryEquipment> list = InventoryManager.instance.inventoryEquipments;
+        for (int i = 0; i<_equipmentSlots.Length; i++)
+        {
+            if (list.Count>i)
+                _equipmentSlots[i].GetComponent<UI_EquipmentSlot>().SetInfo(list[i].itemData);
+            else
+                _equipmentSlots[i].GetComponent<UI_EquipmentSlot>().SetInfo(null);
+        }
     }
 }

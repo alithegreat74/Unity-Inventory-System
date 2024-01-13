@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum InventoryNotification{
+    InventoryModified,
+    EquipmentModified,
+}
 public abstract class InventorySubject : MonoBehaviour
 {
     private List<IInventoryObserver> _observers= new List<IInventoryObserver>();
@@ -16,11 +19,11 @@ public abstract class InventorySubject : MonoBehaviour
         _observers.Remove(observer);
     }
 
-    public void NotifyObservers()
+    public void NotifyObservers(InventoryNotification notif)
     {
         foreach(IInventoryObserver observer in _observers)
         {
-            observer?.Notify();
+            observer?.Notify(notif);
         }
     }
 }

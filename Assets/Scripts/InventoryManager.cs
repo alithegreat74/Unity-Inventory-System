@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class InventoryManager : InventorySubject
@@ -19,6 +20,10 @@ public class InventoryManager : InventorySubject
     [SerializeField] private ItemData _data;
     public List<InventoryItem> inventoryItems=new List<InventoryItem>();
     public Dictionary<ItemData,InventoryItem> inventoryItemsDictionary= new Dictionary<ItemData,InventoryItem>();
+
+    public List<InventoryEquipment> inventoryEquipments=new List<InventoryEquipment>();
+    public Dictionary<ItemData,InventoryEquipment> equipmentsDictionary= new Dictionary<ItemData,InventoryEquipment>();
+    
 
     private void Update()
     {
@@ -41,7 +46,7 @@ public class InventoryManager : InventorySubject
             inventoryItems.Add(newItem);
             inventoryItemsDictionary.Add(itemData, newItem);
         }
-        NotifyObservers();
+        NotifyObservers(InventoryNotification.InventoryModified);
     }
 
     public void RemoveItem(ItemData itemData)
@@ -55,12 +60,30 @@ public class InventoryManager : InventorySubject
                 inventoryItems.Remove(item);
                 inventoryItemsDictionary.Remove(itemData);
             }
-            NotifyObservers();
+            NotifyObservers(InventoryNotification.InventoryModified);
         }
         else
         {
             Debug.LogWarning("This Item doesn't exist");
         }
     }
-
+    public void EquipItem(ItemData itemData)
+    {
+        if(!equipmentsDictionary.TryGetValue(itemData, out InventoryEquipment item))
+        {
+            InventoryEquipment newEquipment=new InventoryEquipment(itemData);
+            equipmentsDictionary.Add(itemData, newEquipment);
+            inventoryEquipments.Add(newEquipment);
+            NotifyObservers(InventoryNotification.EquipmentModified);
+        }
+    }
+    public void UnequipItem(ItemData itemData)
+    {
+        if(equipmentsDictionary.TryGetValue(itemData,out InventoryEquipment item))
+        {
+            equipmentsDictionary.Remove(itemData);
+            inventoryEquipments.Remove(item);
+            NotifyObservers(InventoryNotification.EquipmentModified);
+        }
+    }
 }
