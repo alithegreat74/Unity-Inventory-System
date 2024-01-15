@@ -23,6 +23,7 @@ public class InventoryManager : InventorySubject
 
     public List<InventoryEquipment> inventoryEquipments=new List<InventoryEquipment>();
     public Dictionary<ItemData,InventoryEquipment> equipmentsDictionary= new Dictionary<ItemData,InventoryEquipment>();
+    [SerializeField] private int _equipmentLength;    
     
 
     private void Update()
@@ -69,6 +70,8 @@ public class InventoryManager : InventorySubject
     }
     public void EquipItem(ItemData itemData)
     {
+        if (inventoryEquipments.Count==_equipmentLength)
+            return;
         if(!equipmentsDictionary.TryGetValue(itemData, out InventoryEquipment item))
         {
             InventoryEquipment newEquipment=new InventoryEquipment(itemData);

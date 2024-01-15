@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_EquipmentSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerClickHandler
+public class UI_EquipmentSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     [Header("UI Elements")]
     [SerializeField] private Image _image;
@@ -19,6 +19,7 @@ public class UI_EquipmentSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         {
             transform.GetChild(i).gameObject.SetActive(set);
         }
+        transform.gameObject.GetComponent<Button>().enabled= set;
     }
 
     public void SetInfo(ItemData data)
@@ -44,7 +45,7 @@ public class UI_EquipmentSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         UI_Description.instance.Deinitialize();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void Click()
     {
         InventoryManager.instance.UnequipItem(_data);
     }
