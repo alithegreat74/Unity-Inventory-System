@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_ItemSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerClickHandler
+public class UI_ItemSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
 
     [Header("UI Elements")]
@@ -43,7 +43,7 @@ public class UI_ItemSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandle
         UI_Description.instance.Deinitialize();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void Click()
     {
         InventoryManager.instance.EquipItem(_item.data);
     }

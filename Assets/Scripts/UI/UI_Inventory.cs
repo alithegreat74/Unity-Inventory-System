@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using static UnityEditor.Progress;
+using UnityEngine.EventSystems;
 
 public class UI_Inventory : MonoBehaviour,IInventoryObserver
 {
@@ -17,6 +16,7 @@ public class UI_Inventory : MonoBehaviour,IInventoryObserver
     {
         InventoryManager.instance.AddObserver(this);
         _slots=GetComponentsInChildren<UI_ItemSlot>();
+        
         _equipmentSlots=GetComponentsInChildren<UI_EquipmentSlot>();
         LoadItems();
     }
@@ -41,8 +41,35 @@ public class UI_Inventory : MonoBehaviour,IInventoryObserver
             _slots[i].Initialize(items[i]);
 
         }
+        if (_slots.Length>0)
+        {
+           EventSystem.current.SetSelectedGameObject(_slots[0].gameObject);
+        }
+        //SetButtons();
     }
 
+    //private void SetButtons()
+    //{
+    //    if (_slots.Length>0)
+    //        _eventSystem.firstSelectedGameObject= _slots[0].gameObject;
+
+        
+
+    //    for (int i =0;i<_slots.Length;i++)
+    //    {
+            
+    //        var navigation = _slots[i].GetComponent<Button>().navigation;
+    //        UI_ItemSlot left = i-1>=0 ? _slots[i-1] : null;
+    //        UI_ItemSlot right= (i+1)%6!=5 && i+1<_slots.Length ? _slots[i+1] : null;
+    //        UI_ItemSlot down = i+6<_slots.Length ? _slots[i+6]:null;
+    //        UI_ItemSlot up = i-6>=0 ? _slots[i-6] : null;
+
+    //        navigation.selectOnLeft=left?.GetComponent<Selectable>();
+    //        navigation.selectOnRight=right?.GetComponent<Selectable>();
+    //        navigation.selectOnDown=down?.GetComponent<Selectable>();
+    //        navigation.selectOnUp=up?.GetComponent<Selectable>();
+    //    }
+    //}
     private void OnDisable()
     {
         InventoryManager.instance.RemoveObserver(this);
